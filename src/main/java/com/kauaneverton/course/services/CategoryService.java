@@ -23,4 +23,12 @@ public class CategoryService {
 		Optional<Category> obj = repository.findById(id);
 		return obj.get();
 	}
+
+	public Category insert(Category obj) {
+		return repository.save(obj);
+	}
+	
+	public void delete(Long id) {
+		repository.deleteById(id);
+	}
 }
