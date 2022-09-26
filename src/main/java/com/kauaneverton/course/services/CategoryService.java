@@ -34,6 +34,6 @@ public class CategoryService {
 	
 	public Category update(Long id, Category obj) {
 		Category entity = repository.getOne(id);
-		return repository.save(entity);
+		return repository.save(obj);
 	}
 }
