@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kauaneverton.course.entities.Product;
-import com.kauaneverton.course.entities.User;
 import com.kauaneverton.course.repositories.ProductRepository;
 
 @Service
@@ -27,5 +26,9 @@ public class ProductService {
 	
 	public Product insert(Product obj) {
 		return repository.save(obj);
+	}
+	
+	public void delete(Long id) {
+		repository.deleteById(id);
 	}
 }
