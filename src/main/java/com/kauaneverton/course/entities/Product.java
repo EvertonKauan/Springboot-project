@@ -1,7 +1,9 @@
 package com.kauaneverton.course.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,6 +32,10 @@ public class Product implements Serializable {
 	private String description;
 	private Double price;
 	private String imgURL;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "products")
+	private List<Order> orders = new ArrayList<>();
 	
 	@ManyToMany
 	@JoinTable(name = "tb_product_category", 
@@ -116,12 +122,16 @@ public class Product implements Serializable {
 		return categories;
 	}
 	
-	@JsonIgnore
+	public List<Order> getOrders() {
+		return orders;
+	}
+	
+	/*@JsonIgnore
 	public Set<Order> getOrders() {
 		Set<Order> set = new HashSet<>();
 		for (OrderItem x : items) {
 			set.add(x.getOrder());
 		}
 		return set;
-	}
+	}*/
 }

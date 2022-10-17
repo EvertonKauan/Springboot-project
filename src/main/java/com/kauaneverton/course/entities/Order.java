@@ -38,23 +38,32 @@ public class Order implements Serializable{
 	@JoinColumn(name = "client_id")
 	private User client;
 	
+	@ManyToOne
+	@JoinColumn(name = "product_id")
+	private Product products;
+	
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
 	
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
 	
-	
+	private Integer quantity;
+	private Double price;
 	
 	public Order() {
 	}
 
-	public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
+	public Order(Long id, Instant moment, OrderStatus orderStatus, User client, Product products, Integer quantity, Double price) {
 		super();
 		Id = id;
 		this.moment = moment;
 		setOrderStatus(orderStatus);
 		this.client = client;
+		this.products = products;
+		this.quantity = quantity;
+		this.setPrice(price);
+		
 	}
 
 	public Long getId() {
@@ -91,7 +100,15 @@ public class Order implements Serializable{
 		this.client = client;
 	}
 	
-	public Payment getPayment() {
+	public Product getProduct() {
+		return products;
+	}
+
+	public void setProduct(Product product) {
+		this.products = product;
+	}
+	
+	/*public Payment getPayment() {
 		return payment;
 	}
 
@@ -101,14 +118,27 @@ public class Order implements Serializable{
 
 	public Set<OrderItem> getItems() {
 		return items;
+	} */
+
+	public Integer getQuantity() {
+		return quantity;
 	}
-	
+
+	public void setQuantity(Integer quantity) {
+		this.quantity = quantity;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
 	
 	public Double getTotal() {
 		double sum = 0.0;
-		for (OrderItem x : items) {
-			sum += x.getSubTotal();
-		}
+		sum = getPrice() * getQuantity();
 		return sum;
 	}
 	
@@ -127,7 +157,5 @@ public class Order implements Serializable{
 			return false;
 		Order other = (Order) obj;
 		return Objects.equals(Id, other.Id);
-	}
-	
-	
+	}	
 }
